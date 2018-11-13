@@ -121,22 +121,22 @@ public class BSTTest {
         assertEquals(map.size(), bst.size());
     }
 
-    @Test
-    public void testTraverse() throws Exception {
-        BSTSimple<String, Integer> bst = new BSTSimple<>();
-        PrivateMethodTester tester = new PrivateMethodTester(bst);
-        Class[] classes = {Comparable.class, Object.class};
-        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 42);
-        tester.invokePrivate("setRoot", node);
-        bst.put("X", 99);
-        bst.put("Z", 37);
-        Queue<String> queue = new Queue_Elements<String>();
-        bst.inOrderTraverse((w, x) -> { queue.enqueue(w); return null; });
-        assertEquals("X",queue.dequeue());
-        assertEquals("Y",queue.dequeue());
-        assertEquals("Z",queue.dequeue());
-        assertTrue(queue.isEmpty());
-    }
+//    @Test
+//    public void testTraverse() throws Exception {
+//        BSTSimple<String, Integer> bst = new BSTSimple<>();
+//        PrivateMethodTester tester = new PrivateMethodTester(bst);
+//        Class[] classes = {Comparable.class, Object.class};
+//        BSTSimple.Node node = (BSTSimple.Node) tester.invokePrivateExplicit("makeNode", classes, "Y", 42);
+//        tester.invokePrivate("setRoot", node);
+//        bst.put("X", 99);
+//        bst.put("Z", 37);
+//        Queue<String> queue = new Queue_Elements<String>();
+//        bst.inOrderTraverse((w, x) -> { queue.enqueue(w); return null; });
+//        assertEquals("X",queue.dequeue());
+//        assertEquals("Y",queue.dequeue());
+//        assertEquals("Z",queue.dequeue());
+//        assertTrue(queue.isEmpty());
+//    }
 
     @Test
     public void testDelete1() throws Exception {

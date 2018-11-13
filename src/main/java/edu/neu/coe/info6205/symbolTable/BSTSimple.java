@@ -1,5 +1,7 @@
 package edu.neu.coe.info6205.symbolTable;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
@@ -35,7 +37,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     public Value put(Key key, Value value) {
         NodeValue nodeValue = put(root, key, value);
         if (root == null) root = nodeValue.node;
-        if (nodeValue.value==null) root.count++;
+        if (nodeValue.value == null) root.count++;
         return nodeValue.value;
     }
 
@@ -62,13 +64,13 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
     }
 
     Node root = null;
-    
-    @Override
-    public void delete(Key key) {
-        // TODO- Implement this delete method or add your variations of delete.
-    }
 
-    private Value get(Node node, Key key) {
+//    @Override
+//    public void delete(Key key) {
+//        // TODO- Implement this delete method or add your variations of delete.
+//    }
+
+    public Value get(Node node, Key key) {
         if (node == null) return null;
         int cf = key.compareTo(node.key);
         if (cf < 0) return get(node.smaller, key);
@@ -98,7 +100,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
             NodeValue result = put(node.smaller, key, value);
             if (node.smaller == null)
                 node.smaller = result.node;
-            if (result.value==null)
+            if (result.value == null)
                 result.node.count++;
             return result;
         } else {
@@ -106,7 +108,7 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
             NodeValue result = put(node.larger, key, value);
             if (node.larger == null)
                 node.larger = result.node;
-            if (result.value==null)
+            if (result.value == null)
                 result.node.count++;
             return result;
         }
@@ -150,17 +152,18 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
 
     /**
      * Do a generic traverse of the binary tree starting with node
-     * @param q determines when the function f is invoked ( lt 0: pre, ==0: in, gt 0: post)
+     *
+     * @param q    determines when the function f is invoked ( lt 0: pre, ==0: in, gt 0: post)
      * @param node the node
-     * @param f the function to be invoked
+     * @param f    the function to be invoked
      */
     private void doTraverse(int q, Node node, BiFunction<Key, Value, Void> f) {
         if (node == null) return;
-        if (q<0) f.apply(node.key, node.value);
+        if (q < 0) f.apply(node.key, node.value);
         doTraverse(q, node.smaller, f);
-        if (q==0) f.apply(node.key, node.value);
+        if (q == 0) f.apply(node.key, node.value);
         doTraverse(q, node.larger, f);
-        if (q>0) f.apply(node.key, node.value);
+        if (q > 0) f.apply(node.key, node.value);
     }
 
     private class NodeValue {
@@ -204,17 +207,18 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         return new Node(key, value);
     }
 
-    private Node getRoot() {
+    public Node getRoot() {
         return root;
     }
 
     private void setRoot(Node node) {
-        if(root==null){
+        if (root == null) {
             root = node;
             root.count++;
-        }else
+        } else
             root = node;
     }
+
     private void show(Node node, StringBuffer sb, int indent) {
         if (node == null) return;
         for (int i = 0; i < indent; i++) sb.append("  ");
@@ -239,4 +243,33 @@ public class BSTSimple<Key extends Comparable<Key>, Value> implements BSTdetail<
         show(root, sb, 0);
         return sb.toString();
     }
+
+    //helper function to calculate depth of the tree
+    public int depth() {
+        return depthBST(root);
+    }
+
+    ////function to calculate depth of the tree
+    private int depthBST(Node node) {
+        if (node == null) {
+            return 0;
+        } else {
+            int rightdepth = depthBST(node.larger);
+            int leftdepth = depthBST(node.smaller);
+
+
+            if (leftdepth > rightdepth) {
+                return (1 + leftdepth);
+            } else
+                return (1 + rightdepth);
+
+
+        }
+
+    }
+
+    //Main
+
+
+
 }
